@@ -1,0 +1,33 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        # The floor the plugin header promises, and a current one.
+        php: ['7.4', '8.3']
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          coverage: none
+          tools: composer
+
+      - run: composer install --prefer-dist --no-progress
+
+      - name: Syntax
+        run: find . -path ./vendor -prune -o -name '*.php' -print0 | xargs -0 -n1 php -l
+
+      - name: WordPress coding standards
+        run: composer run lint
+
+      - name: Tests
+        run: composer run test

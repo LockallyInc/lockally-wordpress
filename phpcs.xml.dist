@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<ruleset name="Lockally Mail">
+	<description>WordPress coding standards, which is what the plugin review runs.</description>
+
+	<file>.</file>
+	<exclude-pattern>/vendor/*</exclude-pattern>
+	<exclude-pattern>/node_modules/*</exclude-pattern>
+
+	<arg name="extensions" value="php"/>
+	<arg name="colors"/>
+	<arg value="sp"/>
+
+	<rule ref="WordPress">
+		<!-- The tests run on plain PHP, outside WordPress, so they cannot use
+		     its file functions or its naming conventions. -->
+		<exclude-pattern>/tests/*</exclude-pattern>
+	</rule>
+
+	<config name="minimum_wp_version" value="5.7"/>
+	<config name="testVersion" value="7.4-"/>
+
+	<rule ref="WordPress.WP.I18n">
+		<properties>
+			<property name="text_domain" type="array">
+				<element value="lockally-mail"/>
+			</property>
+		</properties>
+	</rule>
+</ruleset>

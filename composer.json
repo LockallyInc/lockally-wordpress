@@ -1,0 +1,23 @@
+{
+  "name": "lockally/lockally-mail",
+  "description": "WordPress plugin that sends the site's mail through Lockally",
+  "type": "wordpress-plugin",
+  "license": "GPL-2.0-or-later",
+  "require": {
+    "php": ">=7.4"
+  },
+  "require-dev": {
+    "dealerdirect/phpcodesniffer-composer-installer": "^1.0",
+    "wp-coding-standards/wpcs": "^3.1"
+  },
+  "scripts": {
+    "lint": "phpcs",
+    "lint:fix": "phpcbf",
+    "test": "php tests/test-headers.php"
+  },
+  "config": {
+    "allow-plugins": {
+      "dealerdirect/phpcodesniffer-composer-installer": true
+    }
+  }
+}
