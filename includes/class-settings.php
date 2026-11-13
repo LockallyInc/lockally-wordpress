@@ -34,7 +34,6 @@ class Settings {
 			array(
 				'api_key'    => '',
 				'from_email' => '',
-				'from_name'  => '',
 				'api_base'   => 'https://api.lockally.com',
 			)
 		);
@@ -65,15 +64,6 @@ class Settings {
 	 */
 	public function from_email() {
 		return (string) $this->values['from_email'];
-	}
-
-	/**
-	 * The name shown beside the address, or ''.
-	 *
-	 * @return string
-	 */
-	public function from_name() {
-		return (string) $this->values['from_name'];
 	}
 
 	/**
@@ -141,7 +131,6 @@ class Settings {
 		$out   = array(
 			'api_key'    => $this->api_key(),
 			'from_email' => '',
-			'from_name'  => '',
 			'api_base'   => 'https://api.lockally.com',
 		);
 
@@ -156,9 +145,6 @@ class Settings {
 		}
 		if ( isset( $input['from_email'] ) ) {
 			$out['from_email'] = sanitize_email( wp_unslash( $input['from_email'] ) );
-		}
-		if ( isset( $input['from_name'] ) ) {
-			$out['from_name'] = sanitize_text_field( wp_unslash( $input['from_name'] ) );
 		}
 		if ( isset( $input['api_base'] ) && '' !== trim( (string) $input['api_base'] ) ) {
 			$url = esc_url_raw( wp_unslash( $input['api_base'] ) );
@@ -303,16 +289,7 @@ class Settings {
 							<input type="email" class="regular-text" id="lockally_mail_from_email"
 								name="<?php echo esc_attr( OPTION ); ?>[from_email]"
 								value="<?php echo esc_attr( $this->from_email() ); ?>" placeholder="hello@yourdomain.com" />
-							<p class="description"><?php esc_html_e( 'Must be on a domain you have verified in Lockally. Mail from any other address is refused.', 'lockally-mail' ); ?></p>
-						</td>
-					</tr>
-					<tr>
-						<th scope="row"><label for="lockally_mail_from_name"><?php esc_html_e( 'From name', 'lockally-mail' ); ?></label></th>
-						<td>
-							<input type="text" class="regular-text" id="lockally_mail_from_name"
-								name="<?php echo esc_attr( OPTION ); ?>[from_name]"
-								value="<?php echo esc_attr( $this->from_name() ); ?>" />
-							<p class="description"><?php esc_html_e( 'Optional. What recipients see beside the address.', 'lockally-mail' ); ?></p>
+							<p class="description"><?php esc_html_e( 'Must be on a domain you have verified in Lockally. Mail from any other address is refused. Recipients see the display name set on that mailbox in Lockally.', 'lockally-mail' ); ?></p>
 						</td>
 					</tr>
 					<tr>

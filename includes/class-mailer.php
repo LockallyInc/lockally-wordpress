@@ -72,9 +72,11 @@ class Mailer {
 		/** This filter is documented in wp-includes/pluggable.php */
 		$from_email = apply_filters( 'wp_mail_from', $from_email );
 
-		$from_name = '' !== $parsed['from_name'] ? $parsed['from_name'] : $settings->from_name();
-		/** This filter is documented in wp-includes/pluggable.php */
-		$from_name = apply_filters( 'wp_mail_from_name', $from_name );
+		// Only the address goes to Lockally. Its send API takes a bare
+		// local@domain and refuses "Name <address>", so a display name from a
+		// From header or the wp_mail_from_name filter would stop every message,
+		// password resets included. Recipients see the name set on the sending
+		// mailbox in Lockally instead.
 
 		$to = self::addresses( isset( $atts['to'] ) ? $atts['to'] : array() );
 		if ( empty( $to ) ) {
@@ -84,7 +86,7 @@ class Mailer {
 		$message = isset( $atts['message'] ) ? (string) $atts['message'] : '';
 
 		$payload = array(
-			'from'    => '' !== $from_name ? sprintf( '%s <%s>', $from_name, $from_email ) : $from_email,
+			'from'    => $from_email,
 			'to'      => $to,
 			'subject' => isset( $atts['subject'] ) ? (string) $atts['subject'] : '',
 		);

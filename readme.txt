@@ -61,7 +61,11 @@ No. It takes the message before WordPress hands it to PHPMailer, so only one cop
 
 = Can I still use a different From address for some mail? =
 
-Yes. A `From:` header on an individual message is respected, as are the `wp_mail_from` and `wp_mail_from_name` filters. The address still has to be on a domain verified in Lockally.
+Yes. The address in a `From:` header on an individual message is respected, as is the `wp_mail_from` filter. The address still has to be on a domain verified in Lockally.
+
+= Can I set the name recipients see? =
+
+The name comes from the sending mailbox in Lockally, not from WordPress. Lockally sends from the address alone, so a display name in a `From:` header or the `wp_mail_from_name` filter is not used. Set the mailbox's display name in the Lockally console.
 
 = Does it store my messages? =
 
@@ -75,6 +79,7 @@ No. The plugin keeps your settings and, for the last twenty failures, the time, 
 
 = 1.0.0 =
 * First release. Sends `wp_mail()` through Lockally, with attachments, CC, BCC, Reply-To, a test message and a record of recent failures.
+* Sends the From address alone. Lockally refuses a display name in the sender, so a site with a From name set, or a plugin that adds one, had every message refused. The From name setting is gone; recipients see the sending mailbox's display name.
 
 == Upgrade Notice ==
 
