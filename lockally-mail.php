@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name:       Lockally Mail
- * Plugin URI:        https://lockally.com/integrations/wordpress
+ * Plugin URI:        https://lockally.com/integrations/
  * Description:       Sends the mail your site sends through Lockally, so it arrives from your own domain instead of the web server.
  * Version:           1.0.0
  * Requires at least: 5.7
@@ -42,8 +42,6 @@ require_once __DIR__ . '/includes/class-settings.php';
  * mail plugin can do.
  */
 function bootstrap() {
-	load_plugin_textdomain( 'lockally-mail', false, dirname( plugin_basename( LOCKALLY_MAIL_FILE ) ) . '/languages' );
-
 	$settings = new Settings();
 	$settings->hooks();
 

@@ -2,7 +2,7 @@
 Contributors: lockally
 Tags: smtp, email, wp-mail, deliverability, transactional email
 Requires at least: 5.7
-Tested up to: 6.8
+Tested up to: 7.1
 Requires PHP: 7.4
 Stable tag: 1.0.0
 License: GPLv2 or later
@@ -35,7 +35,21 @@ It replaces sending only. Everything that calls `wp_mail()` keeps working exactl
 
 This plugin is a client for [Lockally](https://lockally.com), a business email service, and needs an account there and a verified domain. Create an API key in the Lockally console with the `send:write` permission.
 
-Service links: [Lockally](https://lockally.com) · [Terms](https://lockally.com/terms) · [Privacy](https://lockally.com/privacy) · [Developer documentation](https://developers.lockally.com)
+Service links: [Lockally](https://lockally.com) · [Terms](https://lockally.com/legal/terms/) · [Privacy](https://lockally.com/legal/privacy/) · [Developer documentation](https://developers.lockally.com)
+
+== External services ==
+
+This plugin connects to the Lockally API, run by Lockally, to send your site's email. That is the plugin's only job, so it cannot work without it.
+
+Nothing is sent until you save both an API key and a From address. After that, each time WordPress sends an email through `wp_mail()`, including the test message on the settings screen, the plugin sends it to the Lockally API at https://api.lockally.com (or to the API address on the settings screen, if Lockally gave you a different one). Each request carries:
+
+* the email itself: the sender (From) address, the recipients (To, CC and BCC), the subject, the body (HTML or plain text), the other headers such as Reply-To, and any attachments;
+* your Lockally API key, which Lockally checks before it accepts the message;
+* your site's address, in the request's User-Agent header.
+
+The plugin contacts no other service, and sends nothing at any other time.
+
+This service is provided by Lockally: [Terms of Service](https://lockally.com/legal/terms/), [Privacy Policy](https://lockally.com/legal/privacy/).
 
 == Installation ==
 

@@ -1,0 +1,11 @@
+# Development files stay out of the plugin zip. Build the zip for
+# WordPress.org with:
+#   git archive --format=zip --prefix=lockally-mail/ -o lockally-mail.zip HEAD
+/.github          export-ignore
+/.gitattributes   export-ignore
+/.gitignore       export-ignore
+/composer.json    export-ignore
+/composer.lock    export-ignore
+/phpcs.xml.dist   export-ignore
+/README.md        export-ignore
+/tests            export-ignore

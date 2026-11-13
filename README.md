@@ -45,6 +45,16 @@ composer run lint     # WordPress coding standards, which the plugin review runs
 composer run test     # header parsing, on plain PHP with no WordPress
 ```
 
+## Building the zip for WordPress.org
+
+```bash
+git archive --format=zip --prefix=lockally-mail/ -o lockally-mail.zip HEAD
+```
+
+`.gitattributes` keeps the development files (tests, CI, Composer and phpcs
+config, this README) out of the archive, which Plugin Check requires. Commit
+first: the archive is built from `HEAD`, not the working tree.
+
 The header parsing is the part of `wp_mail()` that plugins most often get
 wrong, so it is deliberately free of WordPress functions and covered by tests
 that run without loading WordPress.

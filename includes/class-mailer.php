@@ -62,6 +62,7 @@ class Mailer {
 		$settings = new Settings();
 		$parsed   = self::parse_headers( isset( $atts['headers'] ) ? $atts['headers'] : '' );
 
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Core wp_mail() filter, applied here exactly as core applies it.
 		$content_type = apply_filters( 'wp_mail_content_type', $parsed['content_type'] );
 		$is_html      = false !== strpos( strtolower( (string) $content_type ), 'text/html' );
 
@@ -70,7 +71,7 @@ class Mailer {
 			$from_email = $settings->from_email();
 		}
 		/** This filter is documented in wp-includes/pluggable.php */
-		$from_email = apply_filters( 'wp_mail_from', $from_email );
+		$from_email = apply_filters( 'wp_mail_from', $from_email ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Core wp_mail() filter.
 
 		// Only the address goes to Lockally. Its send API takes a bare
 		// local@domain and refuses "Name <address>", so a display name from a
@@ -142,6 +143,7 @@ class Mailer {
 
 		$data                             = is_array( $atts ) ? $atts : array();
 		$data['phpmailer_exception_code'] = 0;
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Core wp_mail() action, fired on failure as core fires it.
 		do_action( 'wp_mail_failed', new \WP_Error( $error->get_error_code(), $error->get_error_message(), $data ) );
 
 		return false;
