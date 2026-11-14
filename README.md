@@ -66,3 +66,11 @@ support@lockally.com, or the [developer documentation](https://developers.lockal
 ## Licence
 
 GPL-2.0-or-later, as WordPress.org requires. See [LICENSE](LICENSE).
+
+## Directory assets
+
+`.wordpress-org/` holds the icon and banners for the SVN `assets/` folder
+(not the plugin zip). They are made from the real logo files in the main
+repo's `brand/` folder: the icon is `connector-icon.png`, the banners are
+`lockup-dark.png` centred on navy `#16265c`. A screenshot of the settings
+screen (`screenshot-1.png`, matching readme.txt) is still to be added.
