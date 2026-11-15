@@ -166,6 +166,21 @@ class Mailer {
 			if ( '' === $path ) {
 				continue;
 			}
+			// An attachment is a file on this server, never a stream wrapper
+			// such as phar://, file:// or http://. This is the rule core's own
+			// sending applies (PHPMailer::isPermittedPath()), and it has to run
+			// before is_readable(): on PHP 7, merely checking a phar:// path
+			// unserializes the archive's metadata.
+			if ( preg_match( '#^[a-z][a-z\d+.-]*://#i', $path ) ) {
+				return new \WP_Error(
+					'lockally_mail_attachment_not_local',
+					sprintf(
+						/* translators: %s: the attachment path as it was given. */
+						__( 'The attachment %s is not a file on this server, so the message was not sent.', 'lockally-mail' ),
+						$path
+					)
+				);
+			}
 			if ( ! is_readable( $path ) ) {
 				return new \WP_Error(
 					'lockally_mail_attachment_missing',

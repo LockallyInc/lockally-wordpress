@@ -147,9 +147,24 @@ class Settings {
 			$out['from_email'] = sanitize_email( wp_unslash( $input['from_email'] ) );
 		}
 		if ( isset( $input['api_base'] ) && '' !== trim( (string) $input['api_base'] ) ) {
-			$url = esc_url_raw( wp_unslash( $input['api_base'] ) );
+			// The API key goes out as a Bearer header on every request, so the
+			// address must be https. esc_url_raw() returns '' for any scheme
+			// outside the list it is given.
+			$url = esc_url_raw( wp_unslash( $input['api_base'] ), array( 'https' ) );
 			if ( '' !== $url ) {
 				$out['api_base'] = untrailingslashit( $url );
+			} else {
+				// Keep what was saved before, so a typo does not quietly move a
+				// private deployment's mail to the public API.
+				$saved = $this->api_base();
+				if ( 0 === strpos( $saved, 'https://' ) ) {
+					$out['api_base'] = $saved;
+				}
+				add_settings_error(
+					OPTION,
+					'lockally_mail_api_base',
+					__( 'The API address must start with https://, because the API key is sent with every request. The previous address was kept.', 'lockally-mail' )
+				);
 			}
 		}
 
@@ -242,7 +257,15 @@ class Settings {
 
 		$result   = isset( $_GET['test'] ) ? sanitize_key( wp_unslash( $_GET['test'] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- reading a result to display, changes nothing.
 		$failures = get_option( LOG_OPTION, array() );
-		$failures = is_array( $failures ) ? $failures : array();
+		// The log is an option, so anything can end up in it: a hand-edited
+		// row, or a migration gone wrong. Skip what is not a complete row
+		// rather than fail to draw the screen that explains failures.
+		$failures = array_filter(
+			is_array( $failures ) ? $failures : array(),
+			static function ( $row ) {
+				return is_array( $row ) && isset( $row['time'], $row['to'], $row['subject'], $row['error'] );
+			}
+		);
 		?>
 		<div class="wrap">
 			<h1><?php esc_html_e( 'Lockally Mail', 'lockally-mail' ); ?></h1>
