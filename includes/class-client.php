@@ -134,15 +134,19 @@ class Client {
 
 		switch ( $status ) {
 			case 401:
-				return $said . ' ' . __( 'Check the API key saved under Settings, then Lockally Mail.', 'lockally-mail' );
+				/* translators: %s: what Lockally said was wrong, already a sentence. */
+				return sprintf( __( '%s Check the API key saved under Settings, then Lockally Mail.', 'lockally-mail' ), $said );
 			case 402:
 			case 403:
 				if ( isset( $problem['reason'] ) && 'plan' === $problem['reason'] ) {
-					return $said . ' ' . __( 'Open Billing in the Lockally console to change plan.', 'lockally-mail' );
+					/* translators: %s: what Lockally said was wrong, already a sentence. */
+					return sprintf( __( '%s Open Billing in the Lockally console to change plan.', 'lockally-mail' ), $said );
 				}
-				return $said . ' ' . __( 'The key needs the send:write permission, and the From address must be on a domain verified in Lockally.', 'lockally-mail' );
+				/* translators: %s: what Lockally said was wrong, already a sentence. */
+				return sprintf( __( '%s The key needs the send:write permission, and the From address must be on a domain verified in Lockally.', 'lockally-mail' ), $said );
 			case 429:
-				return $said . ' ' . __( 'Lockally is rate limiting this account. The message was not sent; WordPress will not retry it on its own.', 'lockally-mail' );
+				/* translators: %s: what Lockally said was wrong, already a sentence. */
+				return sprintf( __( '%s Lockally is rate limiting this account. The message was not sent; WordPress will not retry it on its own.', 'lockally-mail' ), $said );
 			default:
 				return $said;
 		}

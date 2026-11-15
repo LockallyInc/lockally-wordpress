@@ -288,7 +288,8 @@ class Settings {
 						<td>
 							<input type="email" class="regular-text" id="lockally_mail_from_email"
 								name="<?php echo esc_attr( OPTION ); ?>[from_email]"
-								value="<?php echo esc_attr( $this->from_email() ); ?>" placeholder="hello@yourdomain.com" />
+								value="<?php echo esc_attr( $this->from_email() ); ?>"
+								placeholder="<?php /* translators: Example email address shown in an empty field. */ echo esc_attr__( 'hello@yourdomain.com', 'lockally-mail' ); ?>" />
 							<p class="description"><?php esc_html_e( 'Must be on a domain you have verified in Lockally. Mail from any other address is refused. Recipients see the display name set on that mailbox in Lockally.', 'lockally-mail' ); ?></p>
 						</td>
 					</tr>
@@ -321,16 +322,16 @@ class Settings {
 				<table class="widefat striped">
 					<thead>
 						<tr>
-							<th><?php esc_html_e( 'When', 'lockally-mail' ); ?></th>
-							<th><?php esc_html_e( 'To', 'lockally-mail' ); ?></th>
-							<th><?php esc_html_e( 'Subject', 'lockally-mail' ); ?></th>
-							<th><?php esc_html_e( 'Why', 'lockally-mail' ); ?></th>
+							<th><?php echo esc_html_x( 'When', 'column heading: time the message failed', 'lockally-mail' ); ?></th>
+							<th><?php echo esc_html_x( 'To', 'column heading: who the message was addressed to', 'lockally-mail' ); ?></th>
+							<th><?php echo esc_html_x( 'Subject', 'column heading: the message subject line', 'lockally-mail' ); ?></th>
+							<th><?php echo esc_html_x( 'Why', 'column heading: the reason it failed', 'lockally-mail' ); ?></th>
 						</tr>
 					</thead>
 					<tbody>
 					<?php foreach ( $failures as $failure ) : ?>
 						<tr>
-							<td><?php echo esc_html( wp_date( 'Y-m-d H:i', (int) $failure['time'] ) ); ?></td>
+							<td><?php echo esc_html( wp_date( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ), (int) $failure['time'] ) ); ?></td>
 							<td><?php echo esc_html( $failure['to'] ); ?></td>
 							<td><?php echo esc_html( $failure['subject'] ); ?></td>
 							<td><?php echo esc_html( $failure['error'] ); ?></td>
