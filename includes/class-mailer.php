@@ -121,7 +121,51 @@ class Mailer {
 			return $this->fail( $atts, $result );
 		}
 
+		// Core fires this after PHPMailer sends. Taking the message through
+		// pre_wp_mail skips that code, so without this a plugin that logs
+		// successful mail (WordPress 5.9 and later) would see nothing.
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Core wp_mail() action, fired on success as core fires it.
+		do_action( 'wp_mail_succeeded', $this->mail_data( $atts ) );
+
 		return true;
+	}
+
+	/**
+	 * The wp_mail() arguments in the shape core hands to wp_mail_succeeded.
+	 *
+	 * Core normalises each field to an array before it fires the action, so
+	 * listeners can rely on that; this does the same. `embeds` is the key
+	 * WordPress 6.9 added, present here even though this plugin does not send
+	 * inline images.
+	 *
+	 * @param array $atts The wp_mail() arguments.
+	 * @return array {
+	 *     @type string[] $to          Recipient addresses.
+	 *     @type string   $subject     Subject.
+	 *     @type string   $message     Body.
+	 *     @type string[] $headers     Headers, one per element.
+	 *     @type string[] $attachments Attachment paths.
+	 *     @type string[] $embeds      Inline image paths.
+	 * }
+	 */
+	private function mail_data( $atts ) {
+		$lists = array();
+		foreach ( array( 'headers', 'attachments', 'embeds' ) as $field ) {
+			$value = isset( $atts[ $field ] ) ? $atts[ $field ] : array();
+			if ( ! is_array( $value ) ) {
+				$value = explode( "\n", str_replace( "\r\n", "\n", (string) $value ) );
+			}
+			$lists[ $field ] = array_values( array_filter( $value, 'strlen' ) );
+		}
+
+		return array(
+			'to'          => self::addresses( isset( $atts['to'] ) ? $atts['to'] : array() ),
+			'subject'     => isset( $atts['subject'] ) ? (string) $atts['subject'] : '',
+			'message'     => isset( $atts['message'] ) ? (string) $atts['message'] : '',
+			'headers'     => $lists['headers'],
+			'attachments' => $lists['attachments'],
+			'embeds'      => $lists['embeds'],
+		);
 	}
 
 	/**
