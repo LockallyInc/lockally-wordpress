@@ -11,6 +11,8 @@ defined( 'ABSPATH' ) || exit;
 
 /**
  * Reads the saved settings and draws the screen that changes them.
+ *
+ * @since 1.0.0
  */
 class Settings {
 
@@ -26,6 +28,8 @@ class Settings {
 
 	/**
 	 * Load the saved settings, filling in anything not set yet.
+	 *
+	 * @since 1.0.0
 	 */
 	public function __construct() {
 		$saved        = get_option( OPTION, array() );
@@ -41,6 +45,10 @@ class Settings {
 
 	/**
 	 * Register the screen, the setting, and the test-message handler.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return void
 	 */
 	public function hooks() {
 		add_action( 'admin_menu', array( $this, 'add_page' ) );
@@ -51,6 +59,8 @@ class Settings {
 	/**
 	 * The saved API key, or ''.
 	 *
+	 * @since 1.0.0
+	 *
 	 * @return string
 	 */
 	public function api_key() {
@@ -60,6 +70,8 @@ class Settings {
 	/**
 	 * The address mail is sent from.
 	 *
+	 * @since 1.0.0
+	 *
 	 * @return string
 	 */
 	public function from_email() {
@@ -68,6 +80,8 @@ class Settings {
 
 	/**
 	 * The API host, without a trailing slash.
+	 *
+	 * @since 1.0.0
 	 *
 	 * @return string
 	 */
@@ -82,6 +96,8 @@ class Settings {
 	 * address on a verified domain every message would be refused, and a
 	 * refused password reset is worse than one sent by the web server.
 	 *
+	 * @since 1.0.0
+	 *
 	 * @return bool
 	 */
 	public function is_configured() {
@@ -90,6 +106,10 @@ class Settings {
 
 	/**
 	 * Add the screen under Settings.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return void
 	 */
 	public function add_page() {
 		add_options_page(
@@ -103,6 +123,10 @@ class Settings {
 
 	/**
 	 * Register the one option everything is stored in.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return void
 	 */
 	public function register() {
 		register_setting(
@@ -122,6 +146,8 @@ class Settings {
 	 * The key field is never filled in with the saved key, so that the secret
 	 * is not sent back to the browser on every page load. An empty field
 	 * therefore means "leave it alone", not "delete it".
+	 *
+	 * @since 1.0.0
 	 *
 	 * @param mixed $input Raw form input.
 	 * @return array
@@ -162,9 +188,12 @@ class Settings {
 	 * The subject and the recipients are kept, never the message: enough to
 	 * recognise which message failed, and nothing more.
 	 *
+	 * @since 1.0.0
+	 *
 	 * @param string $subject Message subject.
 	 * @param array  $to      Recipients.
 	 * @param string $error   Why it failed.
+	 * @return void
 	 */
 	public static function record_failure( $subject, array $to, $error ) {
 		$log = get_option( LOG_OPTION, array() );
@@ -185,6 +214,10 @@ class Settings {
 
 	/**
 	 * Send a test message to the address the form named.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return void
 	 */
 	public function handle_test() {
 		if ( ! current_user_can( 'manage_options' ) ) {
@@ -216,8 +249,11 @@ class Settings {
 	/**
 	 * Back to the settings screen with a result to show.
 	 *
+	 * @since 1.0.0
+	 *
 	 * @param string $key    Query argument name.
 	 * @param string $result Result to show.
+	 * @return void
 	 */
 	private function redirect_with( $key, $result ) {
 		wp_safe_redirect(
@@ -234,6 +270,10 @@ class Settings {
 
 	/**
 	 * The settings screen.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return void
 	 */
 	public function render() {
 		if ( ! current_user_can( 'manage_options' ) ) {

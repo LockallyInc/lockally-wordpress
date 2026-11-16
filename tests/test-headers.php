@@ -24,9 +24,12 @@ $failures = 0;
 $checks   = 0;
 
 /**
+ * Compare an expected value with the actual one, and print the result.
+ *
  * @param string $what     What is being asserted.
  * @param mixed  $expected Expected value.
  * @param mixed  $actual   Actual value.
+ * @return void
  */
 function check( $what, $expected, $actual ) {
 	global $failures, $checks;
