@@ -170,7 +170,7 @@ class Mailer {
 				return new \WP_Error(
 					'lockally_mail_attachment_missing',
 					sprintf(
-						/* translators: %s: file path. */
+						/* translators: %s: file name. */
 						__( 'The attachment %s could not be read, so the message was not sent.', 'lockally-mail' ),
 						basename( $path )
 					)
