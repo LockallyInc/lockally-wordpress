@@ -40,6 +40,10 @@ require_once __DIR__ . '/includes/class-settings.php';
  * captures wp_mail and then fails because it was never configured would stop
  * password resets on the site that installed it, which is the worst thing a
  * mail plugin can do.
+ *
+ * @since 1.0.0
+ *
+ * @return void
  */
 function bootstrap() {
 	$settings = new Settings();
@@ -52,14 +56,19 @@ function bootstrap() {
 add_action( 'plugins_loaded', __NAMESPACE__ . '\\bootstrap' );
 
 /**
- * Settings link on the Plugins screen, because the first thing anybody does
- * after activating this is look for where to put the key.
+ * Add a Settings link to this plugin's row on the Plugins screen.
+ *
+ * The first thing anybody does after activating this is look for where to put
+ * the key.
+ *
+ * @since 1.0.0
+ *
+ * @param string[] $links Action links WordPress would show for this plugin.
+ * @return string[] The same links, with Settings first.
  */
-add_filter(
-	'plugin_action_links_' . plugin_basename( __FILE__ ),
-	function ( $links ) {
-		$url = admin_url( 'options-general.php?page=lockally-mail' );
-		array_unshift( $links, '<a href="' . esc_url( $url ) . '">' . esc_html__( 'Settings', 'lockally-mail' ) . '</a>' );
-		return $links;
-	}
-);
+function action_links( $links ) {
+	$url = admin_url( 'options-general.php?page=lockally-mail' );
+	array_unshift( $links, '<a href="' . esc_url( $url ) . '">' . esc_html__( 'Settings', 'lockally-mail' ) . '</a>' );
+	return $links;
+}
+add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), __NAMESPACE__ . '\\action_links' );

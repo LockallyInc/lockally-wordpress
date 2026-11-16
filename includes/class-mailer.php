@@ -11,6 +11,8 @@ defined( 'ABSPATH' ) || exit;
 
 /**
  * Turns a wp_mail() call into a Lockally send.
+ *
+ * @since 1.0.0
  */
 class Mailer {
 
@@ -27,6 +29,8 @@ class Mailer {
 	/**
 	 * Build the mailer.
 	 *
+	 * @since 1.0.0
+	 *
 	 * @param Client $client API client.
 	 */
 	public function __construct( Client $client ) {
@@ -40,6 +44,10 @@ class Mailer {
 	 * sending: returning a boolean stops core from touching PHPMailer at all,
 	 * so nothing is sent twice and nothing depends on the server's own mail
 	 * setup.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return void
 	 */
 	public function hooks() {
 		add_filter( 'pre_wp_mail', array( $this, 'send' ), 10, 2 );
@@ -47,6 +55,8 @@ class Mailer {
 
 	/**
 	 * Send a message through Lockally.
+	 *
+	 * @since 1.0.0
 	 *
 	 * @param null|bool $short_circuit Whatever an earlier plugin decided.
 	 * @param array     $atts          The wp_mail() arguments.
@@ -130,6 +140,8 @@ class Mailer {
 	 * `wp_mail_failed` is what other plugins listen on, so a site that already
 	 * reports mail problems keeps reporting them.
 	 *
+	 * @since 1.0.0
+	 *
 	 * @param array     $atts  Original wp_mail arguments.
 	 * @param \WP_Error $error What went wrong.
 	 * @return false
@@ -151,6 +163,8 @@ class Mailer {
 
 	/**
 	 * Read the files WordPress wants attached.
+	 *
+	 * @since 1.0.0
 	 *
 	 * @param array|string $attachments Paths, or name => path since WordPress 6.3.
 	 * @return array|\WP_Error
@@ -219,6 +233,8 @@ class Mailer {
 	/**
 	 * Addresses from whatever wp_mail was given.
 	 *
+	 * @since 1.0.0
+	 *
 	 * @param array|string $value One address, several separated by commas, or a list.
 	 * @return array
 	 */
@@ -246,6 +262,8 @@ class Mailer {
 	 *
 	 * Deliberately kept free of WordPress functions so it can be tested without
 	 * loading WordPress.
+	 *
+	 * @since 1.0.0
 	 *
 	 * @param array|string $headers Raw headers.
 	 * @return array {
@@ -318,6 +336,8 @@ class Mailer {
 	/**
 	 * The addresses in one Cc or Bcc header.
 	 *
+	 * @since 1.0.0
+	 *
 	 * @param string $value Header value.
 	 * @return array
 	 */
@@ -334,6 +354,8 @@ class Mailer {
 
 	/**
 	 * Split "Name <address>" into its two halves.
+	 *
+	 * @since 1.0.0
 	 *
 	 * @param string $value One address, with or without a display name.
 	 * @return array {

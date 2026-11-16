@@ -11,6 +11,8 @@ defined( 'ABSPATH' ) || exit;
 
 /**
  * The only place in this plugin that makes a request to Lockally.
+ *
+ * @since 1.0.0
  */
 class Client {
 
@@ -24,6 +26,8 @@ class Client {
 	/**
 	 * Build the client.
 	 *
+	 * @since 1.0.0
+	 *
 	 * @param Settings $settings Plugin settings.
 	 */
 	public function __construct( Settings $settings ) {
@@ -32,6 +36,8 @@ class Client {
 
 	/**
 	 * Send one message.
+	 *
+	 * @since 1.0.0
 	 *
 	 * @param array $payload The Lockally send request.
 	 * @return true|\WP_Error True when Lockally accepted it.
@@ -43,6 +49,8 @@ class Client {
 	/**
 	 * Check that a key works, and say whose account it is.
 	 *
+	 * @since 1.0.0
+	 *
 	 * @param string $api_key Key to test, which may not be the saved one.
 	 * @return array|\WP_Error The whoami response.
 	 */
@@ -52,6 +60,8 @@ class Client {
 
 	/**
 	 * One request, with the error wording this plugin shows.
+	 *
+	 * @since 1.0.0
 	 *
 	 * @param string     $method  HTTP method.
 	 * @param string     $path    Path under the API host.
@@ -118,6 +128,8 @@ class Client {
 	 * Lockally answers with a title and a detail already written for a person,
 	 * so those are passed through; what is added is the next step, because this
 	 * message usually surfaces in an email that never arrived.
+	 *
+	 * @since 1.0.0
 	 *
 	 * @param int   $status  HTTP status.
 	 * @param array $problem Decoded problem details.
